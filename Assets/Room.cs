@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Room
+public class RoomInfo
 {
-    public Vector2 gridPos;
+    int x;
+    int y;
+    
+
     public int type;
-    public bool doorTop, doorBot, doorLeft, doorRight;
+    public bool onSame, doorTop, doorBot, doorLeft, doorRight;
     Vector2 doorPosition;
-    public Room(Vector2 _gridPos, int _type)
+    public RoomInfo(Vector2 _gridPos, int _type)
     {
-        gridPos = _gridPos;
+        
         type = _type;
     }
 }
