@@ -5,24 +5,30 @@ using UnityEngine;
 public class Grid
 {
     public int width, height;
-    private float cellSize = 0.64f;
     private int[,] grid;
-    private List<Cell> gridCells = new List<Cell>();
-    public Grid(int width, int height, float cellSize, Transform Spawner)
+    public List<Cell> gridCells = new List<Cell>();
+    public Grid(int width, int height, float cellSize, Transform spawner)
     {
         this.width = width;
         this.height = height;
 
         grid = new int[width, height];
-        Vector2 posContainer;
-        for(int x = 0; x < grid.GetLength(0); x++)
+        float spawnerPosX = spawner.position.x;
+        float spawnerPosY = spawner.position.y;
+
+        const float UnitsPerPixels = 0.01f;
+
+        for (int x = 0; x < grid.GetLength(0); x++)
         {
-            for(int y = 0; y < grid.GetLength(1); y++)
+            for (int y = 0; y < grid.GetLength(1); y++)
             {
-                Cell c = new Cell(false, new Vector2(x * cellSize, y * cellSize));
+                var position = new Vector2(
+                        (UnitsPerPixels * cellSize * x) + spawnerPosX,
+                        (UnitsPerPixels * cellSize * y) + spawnerPosY);
+
+                Cell c = new Cell(false, position);
+
                 gridCells.Add(c);
-                posContainer.x = x;
-                posContainer.y = y;
             }
         }
 
