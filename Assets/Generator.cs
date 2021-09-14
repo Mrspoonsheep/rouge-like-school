@@ -13,11 +13,18 @@ public class Generator : MonoBehaviour
         spawnerTransform = spawner.transform;
         int gridVariationX = rand.Next(99, 199);
         int gridVariationY = rand.Next(59, 99);
-        Grid generationGrid = new Grid(gridVariationX, gridVariationY, 0.32f, spawnerTransform);
+        Grid generationGrid = new Grid(gridVariationX, gridVariationY, 32f, spawnerTransform);
+        
         for(int i = 0; i < generationGrid.gridCells.Count; i++)
         {
-            bool isWithGroup = 
-            if()
+            if(generationGrid.gridCells[i].Position.x == generationGrid.gridCells[gridVariationX/2].Position.x)
+            {
+
+            }
+            else if(generationGrid.gridCells[i].Position.x == generationGrid.gridCells[(gridVariationX/2) - gridVariationX % 2].Position.x)
+            {
+
+            }
         }
     }
 }
