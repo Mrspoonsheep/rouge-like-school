@@ -70,7 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2813727595068353645}
   m_Layer: 0
-  m_Name: LTRfab
+  m_Name: LTR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,61 +3,90 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public enum DoorSides
+{
+    L = 1,
+    R = 2,
+    B = 4,
+    T = 8,
+    LR = L | R,
+    BL = L | B,
+    LT =L | T,
+    LBT = L | B | T,
+    LBR = L | B | R,
+    LBRT = L | B | R | T,
+    RT = R | T,
+    BT = T |B,
+}
+
+[System.Serializable]
+public struct RoomTemplate
+{
+    public DoorSides doors;
+    public GameObject prefab;
+}
+
 public class Generator : MonoBehaviour
 {
     private System.Random rand = new System.Random();
-    private Transform spawnerTransform, roomTransform;
+    private Transform spawnerTransform;
     public GameObject spawner;
-    private float xpos, ypos, preNumber;
     int gridMiddle;
-    void Start()
+    Grid grid;
+
+    public RoomTemplate[] roomTemplates;
+
+    private Dictionary<DoorSides, int> roomTemplateMap;
+
+    public void Start()
     {
+        GenerateRoomMap();
+        GenerateGrid();
+    }
+
+    void GenerateGrid() { 
         spawnerTransform = spawner.transform;
-        int gridVariationX = rand.Next(99, 199);
-        int gridVariationY = rand.Next(59, 99);
-        Grid generationGrid = new Grid(gridVariationX, gridVariationY, 32f, spawnerTransform);
-        preNumber = (gridVariationX / 2) - 0.5f;
-        string strNumber = strNumber = preNumber.ToString();
 
-        if(!(gridVariationX%2 == 0))
+        int gridWidth = rand.Next(5, 10);
+        int gridHeight = rand.Next(5, 10);
+        grid = new Grid(gridWidth, gridHeight, 128f, spawnerTransform);
+        // Middle index
+        int midY = gridHeight / 2;
+        int midX = gridWidth / 2;
+
+
+        for (int x = 0; x < grid.Width; x++)
         {
-        try
-        {
-            Debug.Log($"strNumebr = {strNumber}");
-            gridMiddle = int.Parse(strNumber);
-        }
-        catch (Exception c)
-        {
-            print(c);
-        }
-        }
-        for(int i = 0; i < generationGrid.gridCells.Count; i++)
-        {
-            if(generationGrid.gridCells[i].Position.x == generationGrid.gridCells[gridVariationX].Position.x)
+            for (int y = 0; y < grid.Height; y++)
             {
-                if (generationGrid.gridCells[i].Position.y == generationGrid.gridCells[4].Position.y)
+                // Get top row middle column
+                // Since y increases, the y coordinate is height-1
+                if (x == midX && y == grid.Height - 1)
                 {
-                    roomTransform.position = generationGrid.gridCells[i].Position;
-                    UnityEngine.Object room = GameObject.Find("Bfab");
-                    GameObject gameRoom = GameObject.Find("Bfab");
-                    Instantiate(room, generationGrid.gridCells[i].Position, gameRoom.transform.rotation);
+                    Spawn(DoorSides.B, x, y);
+                }
+                else
+                {
+                    Spawn(DoorSides.BT, x, y);
                 }
             }
-            else if(generationGrid.gridCells[i].Position.x == generationGrid.gridCells[gridMiddle].Position.x)
-            {
-                if (generationGrid.gridCells[i].Position.y == generationGrid.gridCells[4].Position.y)
-                {
-                    roomTransform.position = generationGrid.gridCells[i].Position;
-                    UnityEngine.Object room = GameObject.Find("Bfab");
-                    GameObject gameRoom = GameObject.Find("Bfab");
-                    Instantiate(room, generationGrid.gridCells[i].Position, gameRoom.transform.rotation);
-                }
-            }
-            else
-            {
 
-            }
         }
+    }
 
+    void Spawn(DoorSides sides, int x, int y)
+    {
+        var roomTemplate = roomTemplates[roomTemplateMap[sides]];
+        Instantiate(roomTemplate.prefab, grid[x, y].Position, Quaternion.identity, transform);
+    }
+
+    void GenerateRoomMap()
+    {
+        roomTemplateMap = new Dictionary<DoorSides, int>();
+for(int i = 0; i < roomTemplates.Length; i++)     
+        {
+            roomTemplateMap.Add(roomTemplates[i].doors, i);
+        }
     }
 }
