@@ -20,13 +20,13 @@ public class playercontrol : MonoBehaviour
         Vector2 playerState = gameobj.transform.position;
         return playerState;
     }
-    Vector2 Teleport(Vector2 playerState, float X, float Y)
+    Vector2 Teleport(Vector2 playerState, Vector2 dir)
     {
-        float distanceY = 0.5f * Y + playerState.y;
-        float distanceX = 0.5f * X + playerState.x;
-        playerState = new Vector2(distanceX,distanceY).normalized;
+
+
+        playerState += dir;
         rb.MovePosition(playerState);
-        Debug.Log($"distanceX = {distanceX} and distanceY = {distanceY}");
+        // Debug.Log($"distanceX = {distanceX} and distanceY = {distanceY}");
         return playerState;
     }
     void Update()
@@ -34,10 +34,11 @@ public class playercontrol : MonoBehaviour
         Vector2 playerState = FindGameObjPos("Player");
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
-        Vector2 moveDirection = new Vector2(moveX, moveY);
-        if  (Input.GetKeyDown(KeyCode.LeftShift) && playerState.x - lastplace.x != 0 && playerState.y - lastplace.y != 0)
+        Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
+        // if  (Input.GetKeyDown(KeyCode.LeftShift) && playerState.x - lastplace.x != 0 && playerState.y - lastplace.y != 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && rb.velocity.sqrMagnitude > 0.1)
         {
-            Teleport(playerState, moveX, moveY);
+            Teleport(playerState, moveDirection * 2);
             Debug.Log($"playerState = {playerState}");
         }
         //Debug.Log($"moveX = {moveX} and moveY = {moveY}");
