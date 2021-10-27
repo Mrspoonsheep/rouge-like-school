@@ -10,14 +10,25 @@ public class playercontrol : MonoBehaviour
     private int teleportlength { get; set; }
     Vector2 movement, lastplace;
     Transform movementAction;
+    public GameObject player;
+    public SpriteRenderer characterSprite;
+    public SpriteRenderer armSprite;
+    private PointTowardMouse accessedScript;
+
+
     private Vector2 FindGameObjPos(string strgameobj)
     {
         GameObject gameobj = GameObject.FindGameObjectWithTag(strgameobj);
 
         Debug.Assert(gameobj != null);
-        
+
         Vector2 playerState = gameobj.transform.position;
         return playerState;
+    }
+
+    private void Start()
+    {
+        accessedScript = GetComponentInChildren<PointTowardMouse>();
     }
     Vector2 Teleport(Vector2 playerState, Vector2 dir)
     {
@@ -43,12 +54,11 @@ public class playercontrol : MonoBehaviour
         //Debug.Log($"moveX = {moveX} and moveY = {moveY}");
         movement = new Vector2(moveX, moveY).normalized;
         lastplace = FindGameObjPos("Player");
-        PointTowardMouse accessedScript = GetComponent<PointTowardMouse>();
-        bool shouldFlip = accessedScript.angle >= 90f && accessedScript.angle <= 270f|| accessedScript.angle <= -90f && accessedScript.angle >= -270f;
-        if (shouldFlip = true)
-        {
-            rb.transform.localScale = new Vector3(-1, 1, 1);
-        }
+        
+        bool shouldFlip = accessedScript.angle > 90f || accessedScript.angle < -90f;
+
+        characterSprite.flipX = shouldFlip;
+        armSprite.flipY = shouldFlip;
     }
 
     private void FixedUpdate()
