@@ -28,7 +28,7 @@ public class playercontrol : MonoBehaviour
 
     private void Start()
     {
-        accessedScript = GetComponentInChildren<PointTowardMouse>();
+        PointTowardMouse accessedScript = GetComponentInChildren<PointTowardMouse>();
     }
     Vector2 Teleport(Vector2 playerState, Vector2 dir)
     {
