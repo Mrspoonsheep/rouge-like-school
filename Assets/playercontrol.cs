@@ -13,7 +13,7 @@ public class playercontrol : MonoBehaviour
     public GameObject player;
     public SpriteRenderer characterSprite;
     public SpriteRenderer armSprite;
-    private PointTowardMouse accessedScript;
+    public PointTowardMouse accessedScript;
 
 
     private Vector2 FindGameObjPos(string strgameobj)
@@ -28,7 +28,7 @@ public class playercontrol : MonoBehaviour
 
     private void Start()
     {
-        PointTowardMouse accessedScript = GetComponentInChildren<PointTowardMouse>();
+        //PointTowardMouse accessedScript = GetComponentInChildren<PointTowardMouse>();
     }
     Vector2 Teleport(Vector2 playerState, Vector2 dir)
     {
