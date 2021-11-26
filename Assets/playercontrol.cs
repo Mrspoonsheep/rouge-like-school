@@ -14,7 +14,7 @@ public class playercontrol : MonoBehaviour
     public SpriteRenderer characterSprite;
     public SpriteRenderer armSprite;
     public PointTowardMouse accessedScript;
-
+    public Animation bodyAnim;
 
     private Vector2 FindGameObjPos(string strgameobj)
     {
@@ -28,6 +28,7 @@ public class playercontrol : MonoBehaviour
 
     private void Start()
     {
+        
         //PointTowardMouse accessedScript = GetComponentInChildren<PointTowardMouse>();
     }
     Vector2 Teleport(Vector2 playerState, Vector2 dir)
@@ -63,6 +64,10 @@ public class playercontrol : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(movement.x * movementSpeed, movement.y * movementSpeed);
+        float moveSpeedY = movement.x * movementSpeed, moveSpeedX = movement.y * movementSpeed;
+        rb.velocity = new Vector2(moveSpeedX, moveSpeedY);
+
+        
+
     }
 }
