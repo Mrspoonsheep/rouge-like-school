@@ -159,6 +159,7 @@ MonoBehaviour:
   characterSprite: {fileID: 2028963614}
   armSprite: {fileID: 575241834}
   accessedScript: {fileID: 575241835}
+  bodyAnim: {fileID: 2028963615}
 --- !u!4 &170343472
 Transform:
   m_ObjectHideFlags: 0
