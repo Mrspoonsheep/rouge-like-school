@@ -8,13 +8,15 @@ public class playercontrol : MonoBehaviour
 
     public Rigidbody2D rb;
     private int teleportlength { get; set; }
-    Vector2 movement, lastplace;
+    Vector2 movement, lastplace, lastPos;
     Transform movementAction;
     public GameObject player;
     public SpriteRenderer characterSprite;
     public SpriteRenderer armSprite;
     public PointTowardMouse accessedScript;
     public Animator bodyAnim;
+
+
     private Vector2 FindGameObjPos(string strgameobj)
     {
         GameObject gameobj = GameObject.FindGameObjectWithTag(strgameobj);
@@ -42,7 +44,7 @@ public class playercontrol : MonoBehaviour
         float moveY = Input.GetAxisRaw("Vertical");
 
         Vector2 move = new Vector2(moveX, moveY);
-
+        bool isWalkingForward = ;
         bodyAnim.SetBool("Walking", move.sqrMagnitude > 0.001);
 
         Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
@@ -61,7 +63,14 @@ public class playercontrol : MonoBehaviour
         characterSprite.flipX = shouldFlip;
         armSprite.flipY = shouldFlip;
     }
+    private void checkMouseDistance()
+    {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 difference;
+        transform.position;
 
+
+    }
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(movement.x * movementSpeed, movement.y * movementSpeed);
