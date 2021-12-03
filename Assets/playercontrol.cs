@@ -8,7 +8,7 @@ public class playercontrol : MonoBehaviour
 
     public Rigidbody2D rb;
     private int teleportlength { get; set; }
-    Vector2 movement, lastplace, lastPos;
+    Vector2 movement, lastplace, lastPos, lastDifference;
     Transform movementAction;
     public GameObject player;
     public SpriteRenderer characterSprite;
@@ -39,14 +39,30 @@ public class playercontrol : MonoBehaviour
     }
     void Update()
     {
+        bool shouldFlip = accessedScript.angle > 90f || accessedScript.angle < -90f;
         Vector2 playerState = FindGameObjPos("Player");
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
-
         Vector2 move = new Vector2(moveX, moveY);
-        bool isWalkingForward = ;
-        bodyAnim.SetBool("Walking", move.sqrMagnitude > 0.001);
+        if (!shouldFlip)
+        {
+            if (moveX == -1)
+            {
 
+            }
+            else if (moveX == 1)
+            {
+                bodyAnim.SetBool("Walking", move.sqrMagnitude > 0.001);
+            }
+            else
+            {
+
+            }
+        }
+        else if (shouldFlip)
+        {
+            bodyAnim.SetBool("Walking", move.sqrMagnitude > 0.001);
+        }
         Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
         // if  (Input.GetKeyDown(KeyCode.LeftShift) && playerState.x - lastplace.x != 0 && playerState.y - lastplace.y != 0)
         if (Input.GetKeyDown(KeyCode.LeftShift) && rb.velocity.sqrMagnitude > 0.1)
@@ -58,18 +74,25 @@ public class playercontrol : MonoBehaviour
         movement = new Vector2(moveX, moveY).normalized;
         lastplace = FindGameObjPos("Player");
 
-        bool shouldFlip = accessedScript.angle > 90f || accessedScript.angle < -90f;
 
         characterSprite.flipX = shouldFlip;
         armSprite.flipY = shouldFlip;
     }
+    private bool CheckDirection()
+    {
+        
+        Vector2 currentpos = transform.position;
+        float difference = currentpos.x - lastPos.x;
+
+        return false;
+        
+    }
     private void checkMouseDistance()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 difference;
-        transform.position;
+        bool ismovingaway;
 
-
+        //lastDifference = difference;
     }
     private void FixedUpdate()
     {
