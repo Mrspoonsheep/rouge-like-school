@@ -46,13 +46,28 @@ public class playercontrol : MonoBehaviour
         Vector2 move = new Vector2(moveX, moveY);
         if (!shouldFlip)
         {
+            switch (moveX)
+            {
+                case -1f:
+                    bodyAnim.SetBool("walkingBackward", true);
+                    bodyAnim.SetBool("Walking", false);
+                break;
+                case 1f:
+                    bodyAnim.SetBool("Walking", true);
+                break;
+                default:
+                    bodyAnim.SetBool("walkingBackward", false);
+                    bodyAnim.SetBool("Walking", false);
+                    break;
+            }
             if (moveX == -1)
             {
-
+                bodyAnim.SetBool("walkingBackward", true);
+                bodyAnim.SetBool("Walking", false);
             }
             else if (moveX == 1)
             {
-                bodyAnim.SetBool("Walking", move.sqrMagnitude > 0.001);
+                bodyAnim.SetBool("Walking", true);
             }
             else
             {
