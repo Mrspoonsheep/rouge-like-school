@@ -60,23 +60,24 @@ public class playercontrol : MonoBehaviour
                     bodyAnim.SetBool("Walking", false);
                     break;
             }
-            if (moveX == -1)
-            {
-                bodyAnim.SetBool("walkingBackward", true);
-                bodyAnim.SetBool("Walking", false);
-            }
-            else if (moveX == 1)
-            {
-                bodyAnim.SetBool("Walking", true);
-            }
-            else
-            {
-
-            }
+            
         }
         else if (shouldFlip)
         {
-            bodyAnim.SetBool("Walking", move.sqrMagnitude > 0.001);
+            switch (moveX)
+            {
+                case -1f:
+                    bodyAnim.SetBool("walkingBackward", false);
+                    bodyAnim.SetBool("Walking", true);
+                    break;
+                case 1f:
+                    bodyAnim.SetBool("walkingBackward", true);
+                    break;
+                default:
+                    bodyAnim.SetBool("walkingBackward", false);
+                    bodyAnim.SetBool("Walking", false);
+                    break;
+            }
         }
         Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
         // if  (Input.GetKeyDown(KeyCode.LeftShift) && playerState.x - lastplace.x != 0 && playerState.y - lastplace.y != 0)
@@ -102,24 +103,9 @@ public class playercontrol : MonoBehaviour
         return false;
         
     }
-    private void checkMouseDistance()
-    {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        bool ismovingaway;
-
-        //lastDifference = difference;
-    }
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(movement.x * movementSpeed, movement.y * movementSpeed);
-        //if (movement.x != 0 || movement.y != 0)
-        //{
-        //    Container.StartAnimPlayback(this, "fWalkTrigger");
-        //}
-        //else
-        //{
-        //    Container.StartAnimPlayback(this, "stopWalkTrigger");
-        //}
     }
     public void StartAnimPlayback(playercontrol p, string animName)
     {
