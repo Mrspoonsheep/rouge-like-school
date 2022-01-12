@@ -54,6 +54,7 @@ public class playercontrol : MonoBehaviour
                 break;
                 case 1f:
                     bodyAnim.SetBool("Walking", true);
+                    bodyAnim.SetBool("walkingBackward", false);
                 break;
                 default:
                     bodyAnim.SetBool("walkingBackward", false);
@@ -71,6 +72,7 @@ public class playercontrol : MonoBehaviour
                     bodyAnim.SetBool("Walking", true);
                     break;
                 case 1f:
+                    bodyAnim.SetBool("Walking", false);
                     bodyAnim.SetBool("walkingBackward", true);
                     break;
                 default:
