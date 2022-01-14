@@ -4,6 +4,12 @@ public struct Bullet
     public float speed;
     public bool explosive;
     
+    public enum DamageNumbers
+    {
+        Pistol  = 1,
+        rifle = 1,
+    }
+
     public Bullet(float speed, int damage, bool explosive) 
     {
         this.damage = damage;
