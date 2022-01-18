@@ -6,6 +6,7 @@ public class InfoGet : MonoBehaviour
 {
     int damage;
     Bullet Bullet;
+    const float bulletDespawnDelay = 1f;
     public void Start()
     {
         damage = (int)Bullet.DamageNumbers.Pistol;
@@ -18,13 +19,15 @@ public class InfoGet : MonoBehaviour
 
     }
 
-   public void OnCollisionEnter2D(Collision2D col)
+    public void OnCollisionEnter2D(Collision2D col)
     {
         Debug.Log("Hit detected");
-        if (col.gameObject.tag == "Wall")
+        if (col.gameObject.CompareTag("Wall"))
         {
             Debug.Log("Hit Wall");
-            GameObject.Destroy(gameObject);
         }
+
+        Destroy(gameObject, bulletDespawnDelay);
+
     }
 }
