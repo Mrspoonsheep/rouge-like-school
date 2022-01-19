@@ -8,6 +8,7 @@ public struct Bullet
     {
         Pistol  = 1,
         rifle = 1,
+        plasmaGun = 3,
     }
 
     public Bullet(float speed, int damage, bool explosive) 
