@@ -19,6 +19,7 @@ public class shoot : MonoBehaviour
         
         if (Input.GetKey(KeyCode.Mouse0))
         {
+
             Debug.Log($"input on mouse is: {Input.GetKeyDown(KeyCode.Mouse0)}");
             var clone = Instantiate(Bullet, transform.position, point.rotation);
             var bulletRb = clone.GetComponent<Rigidbody2D>();

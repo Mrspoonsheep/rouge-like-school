@@ -6,7 +6,7 @@ public class InfoGet : MonoBehaviour
 {
     int damage;
     Bullet Bullet;
-    const float bulletDespawnDelay = 1f;
+    const float bulletDespawnDelay = 0.001f;
     public void Start()
     {
         damage = (int)Bullet.DamageNumbers.Pistol;
