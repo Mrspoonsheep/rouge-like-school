@@ -84,7 +84,7 @@ public class Generator : MonoBehaviour
     void GenerateRoomMap()
     {
         roomTemplateMap = new Dictionary<DoorSides, int>();
-for(int i = 0; i < roomTemplates.Length; i++)     
+        for(int i = 0; i < roomTemplates.Length; i++)     
         {
             roomTemplateMap.Add(roomTemplates[i].doors, i);
         }
