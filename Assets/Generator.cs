@@ -30,7 +30,7 @@ public struct RoomTemplate
 public class Generator : MonoBehaviour
 {
     private System.Random rand = new System.Random();
-    private Transform spawnerTransform;
+    private Vector2 spawningPos;
     public GameObject spawner;
     int gridMiddle;
     Grid grid;
@@ -41,38 +41,18 @@ public class Generator : MonoBehaviour
 
     public void Start()
     {
-        GenerateRoomMap();
+        //GenerateRoomMap();
         GenerateGrid();
     }
 
-    void GenerateGrid() { 
-        spawnerTransform = spawner.transform;
-
-        int gridWidth = rand.Next(5, 10);
-        int gridHeight = rand.Next(5, 10);
-        grid = new Grid(gridWidth, gridHeight, 128f, spawnerTransform);
+    public void GenerateGrid() { 
+        spawningPos = spawner.transform.position;
+        int gridWidth = rand.Next(25, 50);
+        int gridHeight = rand.Next(50, 100);
+        grid = new Grid(gridWidth, gridHeight, 32f, spawningPos);
         // Middle index
         int midY = gridHeight / 2;
         int midX = gridWidth / 2;
-
-
-        for (int x = 0; x < grid.Width; x++)
-        {
-            for (int y = 0; y < grid.Height; y++)
-            {
-                // Get top row middle column
-                // Since y increases, the y coordinate is height-1
-                if (x == midX && y == grid.Height - 1)
-                {
-                    Spawn(DoorSides.B, x, y);
-                }
-                else
-                {
-                    Spawn(DoorSides.BT, x, y);
-                }
-            }
-
-        }
     }
 
     void Spawn(DoorSides sides, int x, int y)

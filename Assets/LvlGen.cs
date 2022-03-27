@@ -23,6 +23,7 @@ public class LvlGen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
 
         for (int i = 0; i < 1; i++)
         {
@@ -32,34 +33,26 @@ public class LvlGen : MonoBehaviour
             // Dictionary<Tuple<int, int>, bool> edges = new Dictionary<Tuple<int, int>, bool>();
             List<Edge> edges = new List<Edge>();
             System.Random rand = new System.Random();
-
             for (int j = 0; j < 4; j++)
             {
+                
                 int index = rand.Next(0, edges.Count);
 
                 int sizeX = rand.Next(2, 5);
                 int sizeY = rand.Next(2, 5);
                 var edge = edges[index];
                 Vector2 origin = edge.pos + new Vector2((float)sizeX, (float)sizeY) * edge.normal;
-                var room = Room.Create(sizeX, sizeY, origin);
+                Vector2 spawningPos = new Vector2(origin.x - (Floor.calcworldpoint(sizeX) / 2f), origin.y - (Floor.calcworldpoint(sizeY) / 2f));
+                var room = Room.Create(sizeX, sizeY, origin, spawningPos);
+                for ()
+                {
 
+                }
                 edges.RemoveAt(index);
                 floor.rooms.Add(room);
                 edges.AddRange(room.Edges().Where(x => Vector2.Dot(x.normal, edge.normal) - 1.0 > 0.1));
             }
             floors.Add(floor);
-        }
-        for (int i = 0; i <= numberOfcuts; i++)
-        {
-            int cutDir = new System.Random().Next(0, 1);
-            if (cutDir == 1)
-            {
-
-            }
-            else
-            {
-
-            }
         }
     }
 
@@ -89,11 +82,13 @@ public class Room
 {
     public float sizeY, sizeX;
     Vector2 origin;
-    Room(float sizex, float sizey, Vector2 roomOrigin)
+    public Grid grid;
+    Room(float sizex, float sizey, Vector2 roomOrigin, Grid grid)
     {
         this.sizeX = sizex;
         this.sizeY = sizey;
         this.origin = roomOrigin;
+        this.grid = grid;
     }
 
     public Edge[] Edges()
@@ -106,12 +101,15 @@ public class Room
             };
     }
 
-    public static Room Create(int sizey, int sizex, Vector2 origin)
+    public static Room Create(int sizex, int sizey, Vector2 origin, Vector2 spawningPos)
     {
-        var sizeY = Floor.calcworldpoint(sizey);
-        var sizeX = Floor.calcworldpoint(sizex);
-        var origin = new Vector2();
-        Room room = new Room(sizeX, sizeY, origin);
+        
+        
+        
+        origin = new Vector2(Floor.calcworldpoint(sizex)/2f, Floor.calcworldpoint(sizey)/2f);
+        
+        Grid grid = new Grid(sizex, sizey, 32f,spawningPos);
+        Room room = new Room(sizex, sizey, origin, grid);
         return room;
     }
 }

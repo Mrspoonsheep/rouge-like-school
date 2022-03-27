@@ -10,7 +10,7 @@ public class Grid
     int[,] grid;
     private Cell[,] cells;
     private List<Cell> cellList = new List<Cell>();
-    private Transform spawner;
+    private Vector2 spawnerPos;
     private float cellSize;
 
     public Cell this /* is sparta */ [int x, int y] {
@@ -28,14 +28,14 @@ public class Grid
     public int Width { get => width; private set => width = value; }
     public int Height { get => height; private set => height = value; }
 
-    public Grid(int width, int height, float cellSize, Transform spawner)
+    public Grid(int width, int height, float cellSize, Vector2 spawnerPos)
     {
         Width = width;
         Height = height;
 
-        this.spawner = spawner;
-        float spawnerPosX = spawner.position.x;
-        float spawnerPosY = spawner.position.y;
+        this.spawnerPos = spawnerPos;
+        float spawnerPosX = spawnerPos.x;
+        float spawnerPosY = spawnerPos.y;
 
         const float UnitsPerPixels = 0.01f;
 
@@ -51,29 +51,13 @@ public class Grid
             }
         }
 
-                /*
-                cells = new Cell[width, height];
-                for (int x = 0; x < width; x++)
-                {
-                    for (int y = 0; y < height; y++)
-                    {
-                        var position = new Vector2(
-                                (UnitsPerPixels * cellSize * x) + spawnerPosX,
-                                (UnitsPerPixels * cellSize * y) + spawnerPosY);
-
-                        Cell c = new Cell(false, position);
-
-                        cells[x, y] = c;
-                    }
-                }
-                */
-            }
+    }
     public Cell GetCell(int x, int y)
     {
         Cell c;
         const float UnitsPerPixels = 0.01f;
-        float spawnerPosX = spawner.position.x;
-        float spawnerPosY = spawner.position.y;
+        float spawnerPosX = spawnerPos.x;
+        float spawnerPosY = spawnerPos.y;
         var position = new Vector2(
                                 (UnitsPerPixels * cellSize * x) + spawnerPosX,
                                 (UnitsPerPixels * cellSize * y) + spawnerPosY);
