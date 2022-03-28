@@ -19,6 +19,7 @@ public class Edge
 public class LvlGen : MonoBehaviour
 {
     int numberOfcuts = new System.Random().Next(5, 25);
+    Cell tempCell;
     List<Floor> floors;
     // Start is called before the first frame update
     void Start()
@@ -40,17 +41,26 @@ public class LvlGen : MonoBehaviour
 
                 int sizeX = rand.Next(2, 5);
                 int sizeY = rand.Next(2, 5);
+
                 var edge = edges[index];
                 Vector2 origin = edge.pos + new Vector2((float)sizeX, (float)sizeY) * edge.normal;
                 Vector2 spawningPos = new Vector2(origin.x - (Floor.calcworldpoint(sizeX) / 2f), origin.y - (Floor.calcworldpoint(sizeY) / 2f));
                 var room = Room.Create(sizeX, sizeY, origin, spawningPos);
-                for ()
-                {
-
-                }
+                
                 edges.RemoveAt(index);
                 floor.rooms.Add(room);
                 edges.AddRange(room.Edges().Where(x => Vector2.Dot(x.normal, edge.normal) - 1.0 > 0.1));
+                for (int k = 0; k <= room.grid.Width; k++)
+                {
+                    for (int l = 0; l <= room.grid.Height; l++)
+                    {
+                        tempCell = room.grid.GetCell(k, l);
+                        switch(tempCell.Position.x)
+                        {
+                            case: tempCell.Position.x == 
+                        }
+                    }
+                }
             }
             floors.Add(floor);
         }
