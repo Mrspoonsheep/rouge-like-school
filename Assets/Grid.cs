@@ -23,7 +23,7 @@ public class Grid
         }
     }
 
-
+    public Vector2 startingPos { get { return spawnerPos; } }
     public int Count { get { return cells.Length; } }
     public int Width { get => width; private set => width = value; }
     public int Height { get => height; private set => height = value; }

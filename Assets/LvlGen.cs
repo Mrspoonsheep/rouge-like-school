@@ -7,6 +7,7 @@ using System.Linq;
 public class Edge
 {
     public Vector2 pos;
+    
     public Vector2 normal;
 
     public Edge(Vector2 pos, Vector2 normal)
@@ -20,11 +21,15 @@ public class LvlGen : MonoBehaviour
 {
     int numberOfcuts = new System.Random().Next(5, 25);
     List<Floor> floors;
+    
     // Start is called before the first frame update
     void Start()
     {
-        
-
+        Cell tempCell;
+        GameObject[] Floortiles = new GameObject[3];
+        Floortiles[0] = GameObject.Find("floor_1");
+        Floortiles[1] = GameObject.Find("floor_2");
+        Floortiles[2] = GameObject.Find("floor_3");
         for (int i = 0; i < 1; i++)
         {
             Floor floor = new Floor();
@@ -35,7 +40,7 @@ public class LvlGen : MonoBehaviour
             System.Random rand = new System.Random();
             for (int j = 0; j < 4; j++)
             {
-                
+
                 int index = rand.Next(0, edges.Count);
 
                 int sizeX = rand.Next(2, 5);
@@ -44,13 +49,25 @@ public class LvlGen : MonoBehaviour
                 Vector2 origin = edge.pos + new Vector2((float)sizeX, (float)sizeY) * edge.normal;
                 Vector2 spawningPos = new Vector2(origin.x - (Floor.calcworldpoint(sizeX) / 2f), origin.y - (Floor.calcworldpoint(sizeY) / 2f));
                 var room = Room.Create(sizeX, sizeY, origin, spawningPos);
-                for ()
-                {
-
-                }
                 edges.RemoveAt(index);
                 floor.rooms.Add(room);
                 edges.AddRange(room.Edges().Where(x => Vector2.Dot(x.normal, edge.normal) - 1.0 > 0.1));
+                int floortile = new System.Random().Next(0, 2);
+                for (int k = 0; k <= room.grid.Width; k++)
+                {
+                    for (int l = 0; l <= room.grid.Height; l++)
+                    {
+                        tempCell = room.grid.GetCell(k, l);
+
+                       
+                        Instantiate(Floortiles[floortile], tempCell.Position, );
+                        bool isonleftedge = tempCell.Position.x - Floor.calcworldpoint(1) == room.grid.startingPos.x;
+                        if (isonleftedge)
+                        {
+
+                        }
+                    }
+                }
             }
             floors.Add(floor);
         }
@@ -103,9 +120,6 @@ public class Room
 
     public static Room Create(int sizex, int sizey, Vector2 origin, Vector2 spawningPos)
     {
-        
-        
-        
         origin = new Vector2(Floor.calcworldpoint(sizex)/2f, Floor.calcworldpoint(sizey)/2f);
         
         Grid grid = new Grid(sizex, sizey, 32f,spawningPos);
