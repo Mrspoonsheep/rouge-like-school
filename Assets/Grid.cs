@@ -58,18 +58,12 @@ public class Grid
         const float UnitsPerPixels = 0.01f;
         float spawnerPosX = spawnerPos.x;
         float spawnerPosY = spawnerPos.y;
-        var position = new Vector2(
-                                (UnitsPerPixels * cellSize * x) + spawnerPosX,
-                                (UnitsPerPixels * cellSize * y) + spawnerPosY);
-        foreach(var cell in cellList)
-        {
-            if(cell.Position == position)
-            {
-                c = cell;
-                return c;
-            }
-        }
-        throw new ArgumentException();
+
+        if (x < 0 || x >= width) throw new IndexOutOfRangeException("X is out of range");
+        if (y < 0 || y >= height) throw new IndexOutOfRangeException("Y is out of range");
+
+        var index = y * width + x;
+        return cellList[index];
     }
 }
 
