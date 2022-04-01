@@ -69,7 +69,7 @@ public class LvlGen : MonoBehaviour
                 // Random or initial edge
                 var edge = (edges.Count > 0) ? edges[index] : new Edge(Vector2.zero, Vector2.up);
 
-                Vector2 origin = edge.pos + new Vector2((float)sizeX, (float)sizeY) * edge.normal;
+                Vector2 origin = edge.pos + new Vector2((float)Floor.calcworldpoint(sizeX) / 2f, (float)Floor.calcworldpoint(sizeY) / 2f) * edge.normal;
                 Vector2 spawningPos = new Vector2(origin.x - (Floor.calcworldpoint(sizeX) / 2f), origin.y - (Floor.calcworldpoint(sizeY) / 2f));
                 var room = Room.Create(sizeX, sizeY, origin, spawningPos);
 
@@ -92,14 +92,14 @@ public class LvlGen : MonoBehaviour
                             Instantiate
                             (
                                 gameSprites[4],
-                                new Vector2(tempCell.Position.x - 0.64f / 2f, tempCell.Position.y),
+                                new Vector2(tempCell.Position.x - 0.32f / 2f, tempCell.Position.y),
                                 Quaternion.AngleAxis(0f, new Vector3(0, 0, 0))
                             );
                         }
                     }
                 }
+                floors.Add(floor);
             }
-            floors.Add(floor);
         }
     }
 
@@ -152,7 +152,7 @@ public class Room
     {
         origin = new Vector2(Floor.calcworldpoint(sizex) / 2f, Floor.calcworldpoint(sizey) / 2f);
 
-        Grid grid = new Grid(sizex, sizey, 64f, spawningPos);
+        Grid grid = new Grid(sizex, sizey, 32f, spawningPos);
         Room room = new Room(sizex, sizey, origin, grid);
         return room;
     }
