@@ -54,7 +54,6 @@ public class Grid
     }
     public Cell GetCell(int x, int y)
     {
-        Cell c;
         const float UnitsPerPixels = 0.01f;
         float spawnerPosX = spawnerPos.x;
         float spawnerPosY = spawnerPos.y;

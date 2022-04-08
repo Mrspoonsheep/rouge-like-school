@@ -47,9 +47,13 @@ public class LvlGen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cell tempCell;
-        
-        for (int i = 0; i < 1; i++)
+        /*Cell tempCell;
+        List<Edge> edges = new List<Edge>();
+        var edge = (edges.Count > 0) ? edges[index] : new Edge(Vector2.zero, Vector2.up);
+        Vector2 origin = edge.pos + new Vector2((float)Floor.calcworldpoint(sizeX) / 2f, (float)Floor.calcworldpoint(sizeY) / 2f) * edge.normal;
+        Vector2 spawningPos = new Vector2(origin.x - (Floor.calcworldpoint(sizeX) / 2f), origin.y - (Floor.calcworldpoint(sizeY) / 2f));
+        var room = Room.Create(sizeX, sizeY, origin, spawningPos);*/
+        for (int i = 0; i < 4; i++)
         {
             Floor floor = new Floor();
 
@@ -58,21 +62,20 @@ public class LvlGen : MonoBehaviour
 
             List<Edge> edges = new List<Edge>();
             System.Random rand = new System.Random();
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < 128; j++)
             {
-
                 int index = rand.Next(0, edges.Count);
                 Debug.Log($"{index}, {edges.Count}");
                 int sizeX = rand.Next(2, 5);
                 int sizeY = rand.Next(2, 5);
 
                 // Random or initial edge
-                var edge = (edges.Count > 0) ? edges[index] : new Edge(Vector2.zero, Vector2.up);
+                Edge edge = (edges.Count > 0) ? edges[index] : new Edge(Vector2.zero, Vector2.up);
 
-                Vector2 origin = edge.pos + new Vector2((float)Floor.calcworldpoint(sizeX) / 2f, (float)Floor.calcworldpoint(sizeY) / 2f) * edge.normal;
+                Vector2 origin = edge.pos + new Vector2(Floor.calcworldpoint(sizeX) / 2f, Floor.calcworldpoint(sizeY) / 2f) * edge.normal;
                 Vector2 spawningPos = new Vector2(origin.x - (Floor.calcworldpoint(sizeX) / 2f), origin.y - (Floor.calcworldpoint(sizeY) / 2f));
                 var room = Room.Create(sizeX, sizeY, origin, spawningPos);
-
+                Debug.Log("Creating room");
                 if (edges.Count() != 0) edges.RemoveAt(index);
 
                 floor.rooms.Add(room);
@@ -85,14 +88,15 @@ public class LvlGen : MonoBehaviour
                         tempCell = room.grid.GetCell(k, l);
 
                         Debug.Log($"Using tileP {floorTile}. Avail: {gameSprites.Length}");
-                        Instantiate(gameSprites[floorTile], tempCell.Position, Quaternion.AngleAxis(0f, new Vector3(0, 0, 0)));
-                        bool isonleftedge = tempCell.Position.x - Floor.calcworldpoint(1) == room.grid.startingPos.x;
+                        var cell = Instantiate(gameSprites[floorTile], tempCell.Position, Quaternion.AngleAxis(0f, new Vector3(0, 0, 0)));
+                        cell.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                        bool isonleftedge = tempCell.Position.x == room.grid.GetCell(0, 1).Position.x;
                         if (isonleftedge)
                         {
                             Instantiate
                             (
-                                gameSprites[4],
-                                new Vector2(tempCell.Position.x - 0.32f / 2f, tempCell.Position.y),
+                                gameSprites[3],
+                                new Vector2(tempCell.Position.x, tempCell.Position.y),
                                 Quaternion.AngleAxis(0f, new Vector3(0, 0, 0))
                             );
                         }
@@ -114,9 +118,7 @@ public class Floor
 {
     public List<Room> rooms = new List<Room>();
 
-    public float sizeY, sizeX;
-    float[,] origin = new float[1, 1];
-
+    
     public static float calcworldpoint(int distance)
     {
         float result = (float)(0.32f * distance);
