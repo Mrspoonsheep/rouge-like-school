@@ -32,6 +32,7 @@ public class Generator : MonoBehaviour
     private System.Random rand = new System.Random();
     private Vector2 spawningPos;
     public GameObject spawner;
+
     int gridMiddle;
     Grid grid;
 

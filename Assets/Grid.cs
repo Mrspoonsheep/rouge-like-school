@@ -24,7 +24,7 @@ public class Grid
     }
 
     public Vector2 startingPos { get { return spawnerPos; } }
-    public int Count { get { return cells.Length; } }
+    public int Count { get { return cellList.Count; } }
     public int Width { get => width; private set => width = value; }
     public int Height { get => height; private set => height = value; }
 
@@ -46,7 +46,7 @@ public class Grid
                 var position = new Vector2(
                                 (UnitsPerPixels * cellSize * x) + spawnerPosX,
                                 (UnitsPerPixels * cellSize * y) + spawnerPosY);
-                Cell c = new Cell(false, position);
+                Cell c = new Cell(false, position, x, y);
                 cellList.Add(c);
             }
         }
@@ -61,7 +61,7 @@ public class Grid
         if (x < 0 || x >= width) throw new IndexOutOfRangeException("X is out of range");
         if (y < 0 || y >= height) throw new IndexOutOfRangeException("Y is out of range");
 
-        var index = y * width + x;
+        var index = y + x * height;
         return cellList[index];
     }
 }
@@ -70,9 +70,12 @@ public struct Cell
 {
     public Vector2 Position;
     public bool active;
-    public Cell(bool active, Vector2 position)
+    public int gridX, gridY;
+    public Cell(bool active, Vector2 position, int gridPointintX, int gridPointintY)
     {
         this.active = active;
         this.Position = position;
+        this.gridX = gridPointintX;
+        this.gridY = gridPointintY;
     }
 }

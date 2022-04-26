@@ -53,26 +53,35 @@ public class LvlGen : MonoBehaviour
         Vector2 origin = edge.pos + new Vector2((float)Floor.calcworldpoint(sizeX) / 2f, (float)Floor.calcworldpoint(sizeY) / 2f) * edge.normal;
         Vector2 spawningPos = new Vector2(origin.x - (Floor.calcworldpoint(sizeX) / 2f), origin.y - (Floor.calcworldpoint(sizeY) / 2f));
         var room = Room.Create(sizeX, sizeY, origin, spawningPos);*/
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 1; i++)
         {
             Floor floor = new Floor();
 
             // Create rooms
             // Dictionary<Tuple<int, int>, bool> edges = new Dictionary<Tuple<int, int>, bool>();
-
+            Edge edge;
             List<Edge> edges = new List<Edge>();
+            floors = new List<Floor>();
             System.Random rand = new System.Random();
-            for (int j = 0; j < 128; j++)
+            
+            for (int j = 0; j < 2; j++)
             {
                 int index = rand.Next(0, edges.Count);
                 Debug.Log($"{index}, {edges.Count}");
                 int sizeX = rand.Next(2, 5);
                 int sizeY = rand.Next(2, 5);
-
                 // Random or initial edge
-                Edge edge = (edges.Count > 0) ? edges[index] : new Edge(Vector2.zero, Vector2.up);
-
+                if (edges.Count > 0)
+                {
+                    edge = edges[index];
+                }
+                else
+                {
+                    edge = new Edge(Vector2.zero, Vector2.up);
+                }
+                Debug.Log($"the edge is at position {edge.pos}");
                 Vector2 origin = edge.pos + new Vector2(Floor.calcworldpoint(sizeX) / 2f, Floor.calcworldpoint(sizeY) / 2f) * edge.normal;
+                Debug.Log($"new vector is = {new Vector2(Floor.calcworldpoint(sizeX) / 2f, Floor.calcworldpoint(sizeY) / 2f) * edge.normal}");
                 Vector2 spawningPos = new Vector2(origin.x - (Floor.calcworldpoint(sizeX) / 2f), origin.y - (Floor.calcworldpoint(sizeY) / 2f));
                 var room = Room.Create(sizeX, sizeY, origin, spawningPos);
                 Debug.Log("Creating room");
@@ -85,13 +94,18 @@ public class LvlGen : MonoBehaviour
                 {
                     for (int l = 0; l < room.grid.Height; l++)
                     {
+                        bool left = k == 0;
+                        bool right = k == room.grid.Width - 1;
+                        bool top = l == 0;
+                        bool bot = l == room.grid.Height - 1;
+
                         tempCell = room.grid.GetCell(k, l);
 
                         Debug.Log($"Using tileP {floorTile}. Avail: {gameSprites.Length}");
                         var cell = Instantiate(gameSprites[floorTile], tempCell.Position, Quaternion.AngleAxis(0f, new Vector3(0, 0, 0)));
-                        cell.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-                        bool isonleftedge = tempCell.Position.x == room.grid.GetCell(0, 1).Position.x;
-                        if (isonleftedge)
+                        bool isonleftedge = tempCell.Position.x == room.grid.GetCell(0, 0).Position.x;
+
+                        if (left)
                         {
                             Instantiate
                             (
@@ -100,8 +114,37 @@ public class LvlGen : MonoBehaviour
                                 Quaternion.AngleAxis(0f, new Vector3(0, 0, 0))
                             );
                         }
+                        if (right)
+                        {
+                            Instantiate
+                            (
+                                gameSprites[4],
+                                new Vector2(tempCell.Position.x, tempCell.Position.y),
+                                Quaternion.AngleAxis(0f, new Vector3(0, 0, 0))
+                            );
+                        }
+                        if (top)
+                        {
+                            Instantiate
+                            (
+                                gameSprites[5],
+                                new Vector2(tempCell.Position.x, tempCell.Position.y),
+                                Quaternion.AngleAxis(0f, new Vector3(0, 0, 0))
+                            );
+                        }
+                        if (bot)
+                        {
+                            Instantiate
+                            (
+                                gameSprites[6],
+                                new Vector2(tempCell.Position.x, tempCell.Position.y),
+                                Quaternion.AngleAxis(0f, new Vector3(0, 0, 0))
+                            );
+                        }
+
                     }
                 }
+
                 floors.Add(floor);
             }
         }
@@ -118,7 +161,7 @@ public class Floor
 {
     public List<Room> rooms = new List<Room>();
 
-    
+
     public static float calcworldpoint(int distance)
     {
         float result = (float)(0.32f * distance);
@@ -150,12 +193,12 @@ public class Room
             };
     }
 
-    public static Room Create(int sizex, int sizey, Vector2 origin, Vector2 spawningPos)
+    public static Room Create(int width, int height, Vector2 origin, Vector2 spawningPos)
     {
-        origin = new Vector2(Floor.calcworldpoint(sizex) / 2f, Floor.calcworldpoint(sizey) / 2f);
+        origin = origin + new Vector2(Floor.calcworldpoint(width) / 2f, Floor.calcworldpoint(height) / 2f);
 
-        Grid grid = new Grid(sizex, sizey, 32f, spawningPos);
-        Room room = new Room(sizex, sizey, origin, grid);
+        Grid grid = new Grid(width, height, 32f, spawningPos);
+        Room room = new Room(width, height, origin, grid);
         return room;
     }
 }
