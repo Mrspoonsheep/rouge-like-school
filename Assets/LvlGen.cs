@@ -41,24 +41,15 @@ public class LvlGen : MonoBehaviour
 {
     int numberOfcuts = new System.Random().Next(5, 25);
     Cell tempCell;
-    List<Floor> floors;
+    public List<Floor> floors;
     public GameObject[] gameSprites;
 
     // Start is called before the first frame update
     void Start()
     {
-        /*Cell tempCell;
-        List<Edge> edges = new List<Edge>();
-        var edge = (edges.Count > 0) ? edges[index] : new Edge(Vector2.zero, Vector2.up);
-        Vector2 origin = edge.pos + new Vector2((float)Floor.calcworldpoint(sizeX) / 2f, (float)Floor.calcworldpoint(sizeY) / 2f) * edge.normal;
-        Vector2 spawningPos = new Vector2(origin.x - (Floor.calcworldpoint(sizeX) / 2f), origin.y - (Floor.calcworldpoint(sizeY) / 2f));
-        var room = Room.Create(sizeX, sizeY, origin, spawningPos);*/
         for (int i = 0; i < 1; i++)
         {
             Floor floor = new Floor();
-
-            // Create rooms
-            // Dictionary<Tuple<int, int>, bool> edges = new Dictionary<Tuple<int, int>, bool>();
             Edge edge;
             List<Edge> edges = new List<Edge>();
             floors = new List<Floor>();
@@ -86,7 +77,6 @@ public class LvlGen : MonoBehaviour
                 var room = Room.Create(sizeX, sizeY, origin, spawningPos);
                 Debug.Log("Creating room");
                 if (edges.Count() != 0) edges.RemoveAt(index);
-
                 floor.rooms.Add(room);
                 edges.AddRange(room.Edges().Where(x => Vector2.Dot(x.normal, edge.normal) - 1.0 > 0.1));
                 int floorTile = new System.Random().Next(0, 2);
