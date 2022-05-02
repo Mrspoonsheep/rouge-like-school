@@ -7,7 +7,6 @@ public class Aicontroller : MonoBehaviour
     void Start()
     {
         LvlGen level = gameObject.GetComponent<LvlGen>();
-        level.floors.
         
     }
 
