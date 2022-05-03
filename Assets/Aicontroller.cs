@@ -8,10 +8,6 @@ public class Aicontroller : MonoBehaviour
     {
         LvlGen level = gameObject.GetComponent<LvlGen>();
         {
-            var Obj = 
         } 
-    }
-    {
-        
     }
 }

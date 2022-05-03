@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RoboAI : MonoBehaviour
 {
-    public float speed = 3f;
-    public float detectdistance = 5f;
+    public int robohealth = 4;
+    public float speed = 0.2f;
     public float minMoveDist = 1f;
     [SerializeField] Transform target;
 
@@ -13,12 +13,11 @@ public class RoboAI : MonoBehaviour
     {
         if (target != null)
         {
+
+            float zeroer = speed * Time.deltaTime;
            
-            Vector2 PositionDelta = transform.position - target.position;
-            if (PositionDelta.x >= minMoveDist && PositionDelta.y >= minMoveDist)
-            {
-                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-            }
+            float PositionDelta = Vector2.Distance(transform.position, target.position);
+                transform.position = Vector2.MoveTowards(transform.position, target.position, zeroer);
         }
     }
 
@@ -31,26 +30,10 @@ public class RoboAI : MonoBehaviour
     {
         if (target == null)
         {
-            Transform _target;
-            try
-            {
-                _target = GameObject.FindGameObjectWithTag("Player").transform;
-            }
-            catch
-            {
-                return null;
-            }
+            Transform _target = GameObject.FindGameObjectWithTag("Player").transform;
             if (_target != null)
             {
-                float _dist = Vector2.Distance(_target.position, transform.position);
-                if (_dist <= detectdistance)
-                {
-                    return _target;
-                }
-                else
-                {
-                    return null;
-                }
+                return _target;
             }
             else
             {
@@ -59,16 +42,7 @@ public class RoboAI : MonoBehaviour
         }
         else
         {
-                float _dist = Vector2.Distance(target.position, transform.position);
-                if (_dist <= detectdistance)
-                {
-                    return target;
-                }
-                else
-                {
-                    return null;
-                }
+            return target;
         }
     }
-
 }
