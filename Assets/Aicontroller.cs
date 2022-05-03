@@ -7,8 +7,10 @@ public class Aicontroller : MonoBehaviour
     void Start()
     {
         LvlGen level = gameObject.GetComponent<LvlGen>();
-        level.floors.
-        
+        for(int floorindex = 0; floorindex < level.floors.Count; floorindex++)
+        {
+            var Obj = 
+        } 
     }
 
     // Update is called once per frame
