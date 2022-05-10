@@ -2,25 +2,20 @@ public struct Bullet
 {
     public int damage;
     public float speed;
-    public bool explosive;
     
     public enum DamageNumbers
     {
-        Pistol  = 1,
-        rifle = 1,
-        plasmaGun = 3,
+        Pistol = 2,
+        Rifle = 2,
+        Plasma = 5,
+        Alien = 7,
+        Robot = 3,
     }
 
-    public Bullet(float speed, int damage, bool explosive) 
+    public Bullet(float speed, int damage)
     {
         this.damage = damage;
         this.speed = speed;
-        this.explosive = explosive;
-        
-    }
 
-    public void hoaming() 
-    { 
-    
     }
 }

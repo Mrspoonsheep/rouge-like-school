@@ -10,10 +10,8 @@ public class PointTowardMouse : MonoBehaviour
 
     private void Update()
     {
-        //transform.position = transform.parent.position;
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        //angle = Mathf.Clamp(angle, -90f, 90f);
         rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speed * Time.deltaTime);
     }

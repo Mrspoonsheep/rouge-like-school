@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9153500576181006067}
   - component: {fileID: 7735857236578808357}
   - component: {fileID: 6489389073342705918}
+  - component: {fileID: 6933944943410690058}
   m_Layer: 0
   m_Name: Boarder_left
   m_TagString: Wall
@@ -109,3 +110,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.040136337, y: 0.32}
   m_EdgeRadius: 0
+--- !u!114 &6933944943410690058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2302554413052405714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 531f6717d4f2b184db9077af65dd0a3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

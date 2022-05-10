@@ -4,22 +4,41 @@ using UnityEngine;
 
 public class shoot : MonoBehaviour
 {
+    public float speed = 100f;
+    public float angle;
+    public Quaternion rotation;
     public GameObject Bullet;
-    PointTowardMouse point;
+    [SerializeField]PointTowardMouse point;
     Vector2 bulletVelocity;
-    public float bulletSpeed = 2;
+    public float bulletSpeed = 2f;
+    public Transform BulletEjector;
+    public playercontrol accessor;
+    [SerializeField] Animator animator;
     void Start()
     {
         point = GetComponentInParent<PointTowardMouse>();
     }
-
+    
     // Update is called once per frame
     void Update()
     {
+        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speed * Time.deltaTime);
+
+        if (accessor.shouldFlip == true)
+        {
+            transform.localPosition = new Vector2(0.224f, -0.016f);
+        }
+        else
+        {
+            transform.localPosition = new Vector2(0.224f, 0.016f);
+        }
         
         if (Input.GetKey(KeyCode.Mouse0))
         {
-
+            animator.Play("gunShoot");
             Debug.Log($"input on mouse is: {Input.GetKeyDown(KeyCode.Mouse0)}");
             var clone = Instantiate(Bullet, transform.position, point.rotation);
             var bulletRb = clone.GetComponent<Rigidbody2D>();

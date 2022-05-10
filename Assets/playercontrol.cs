@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 public class playercontrol : MonoBehaviour
 {
+    public int health = 100;
     public float movementSpeed = 5f;
 
     public Rigidbody2D rb;
@@ -15,8 +17,9 @@ public class playercontrol : MonoBehaviour
     public SpriteRenderer armSprite;
     public PointTowardMouse accessedScript;
     public Animator bodyAnim;
-
-
+    public bool shouldFlip;
+    string weaponslot;
+    [SerializeField] Scene scene;
     private Vector2 FindGameObjPos(string strgameobj)
     {
         GameObject gameobj = GameObject.FindGameObjectWithTag(strgameobj);
@@ -39,11 +42,33 @@ public class playercontrol : MonoBehaviour
     }
     void Update()
     {
-        bool shouldFlip = accessedScript.angle > 90f || accessedScript.angle < -90f;
+        if (health <= 0)
+        {
+            SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
+            health = 1;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
+        }
+        shouldFlip = accessedScript.angle > 90f || accessedScript.angle < -90f;
         Vector2 playerState = FindGameObjPos("Player");
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
         Vector2 move = new Vector2(moveX, moveY);
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+
+        }
+
         if (!shouldFlip)
         {
             switch (moveX)
@@ -82,7 +107,6 @@ public class playercontrol : MonoBehaviour
             }
         }
         Vector2 moveDirection = new Vector2(moveX, moveY).normalized;
-        // if  (Input.GetKeyDown(KeyCode.LeftShift) && playerState.x - lastplace.x != 0 && playerState.y - lastplace.y != 0)
         if (Input.GetKeyDown(KeyCode.LeftShift) && rb.velocity.sqrMagnitude > 0.1)
         {
             Teleport(playerState, moveDirection * 2);
@@ -95,6 +119,16 @@ public class playercontrol : MonoBehaviour
 
         characterSprite.flipX = shouldFlip;
         armSprite.flipY = shouldFlip;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("found Player");
+        if (collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            RoboDamageInfo d = collision.gameObject.GetComponent<RoboDamageInfo>();
+            health -= d.damage;
+        }
     }
     private bool CheckDirection()
     {
