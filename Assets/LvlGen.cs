@@ -21,7 +21,7 @@ public class Edge
 
 public class LvlGen : MonoBehaviour
 {
-    public int enemiesLeft;
+    public GameObject[] enemies;
     Cell tempCell;
     public List<Floor> floors;
     public GameObject[] gameSprites;
@@ -85,12 +85,11 @@ public class LvlGen : MonoBehaviour
                         Debug.Log($"Using tileP {floorTile}. Avail: {gameSprites.Length}");
                         var cell = Instantiate(gameSprites[floorTile], tempCell.Position, Quaternion.AngleAxis(0f, new Vector3(0, 0, 0)));
                         bool isonleftedge = tempCell.Position.x == room.grid.GetCell(0, 0).Position.x;
-                        if (chance < 3)
+                        if (chance < 2)
                         {
                             for (int m = 0; m <= Spawnercount; m++)
                             {
                                 Spawner s = new Spawner(tempCell.Position, enemy, enemycount);
-                                enemiesLeft++;
                             }
                         }
                         if (left)
@@ -136,14 +135,10 @@ public class LvlGen : MonoBehaviour
                 }
 
                 floors.Add(floor);
-                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-                enemiesLeft = enemies.Length;
-                if (enemiesLeft <= 0)
-                {
-                    SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
-                }
+               
             }
-        }
+    
+        } 
     }
 
    
@@ -151,16 +146,9 @@ public class LvlGen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(enemiesLeft == 0)
-        {
-            SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
-        }
+   
     }
 
-    void OnGUI()
-    {
-        GUI.Label(new Rect(0, 0, 200, 20), "Enemies Remaining : " + enemiesLeft);
-    }
 
  
 }

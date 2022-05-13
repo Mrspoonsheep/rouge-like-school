@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System;
 
 public class RoboAI : MonoBehaviour
 {
-    public event GameController.removeEnemy EneiesMinusOne;
     public int robohealth = 4;
     public float speed = 0.2f;
     public float minMoveDist = 3f;
@@ -16,6 +16,12 @@ public class RoboAI : MonoBehaviour
     public GameObject roboBullet;
     public EnemyShoot shootScript;
     public float fireRate, waitTilNextFire = 1.0f;
+
+    void Start()
+    {
+        FindObjectOfType<GameController>().OnEnemySpawn();
+    }
+
     private void Update()
     { 
         if (target == null)
@@ -24,9 +30,10 @@ public class RoboAI : MonoBehaviour
         }
         if (robohealth <= 0)
         {
-            Destroy(gameObject);
-            EneiesMinusOne.Invoke();
+            Destroy(gameObject, 1.0f); 
         }
+
+
         if (target != null)
         {
             float trueSpeed;
@@ -74,7 +81,7 @@ public class RoboAI : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
-    private void LateUpdate()
+    void LateUpdate()
     {
         
         target = Findtarget();
@@ -83,7 +90,7 @@ public class RoboAI : MonoBehaviour
 
     void OnDestroy()
     {
-        
+        FindObjectOfType<GameController>()?.OnEnemyDeath();
     }
     Transform Findtarget()
     {

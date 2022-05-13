@@ -476,6 +476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7be8ce2e878e884fbbc15a8fd29061c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemies: []
   gameSprites:
   - {fileID: 6357322875555047497, guid: 9b300f8c5771e884d807b3dc6ae0e168, type: 3}
   - {fileID: 5149422847472425602, guid: cfb325b72a6105f4696e77b03dffded6, type: 3}
@@ -510,9 +511,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 952341655}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e84d8961f5697f41b1e9de8fd39d8d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 497486cf06175a64391e34e7b5ab5d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getLvlGen: {fileID: 952341656}
 --- !u!1 &1659943471
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +558,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bc08e2c57b791e469ce752561e8f923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 100
+  angle: 0
+  rotation: {x: 0, y: 0, z: 0, w: 0}
   Bullet: {fileID: 3470682621779502633, guid: 1bfc30b75522f2d49892481a7962e356, type: 3}
+  point: {fileID: 0}
   bulletSpeed: 2
   BulletEjector: {fileID: 1659943472}
   accessor: {fileID: 170343470}
