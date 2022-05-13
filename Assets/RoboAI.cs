@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RoboAI : MonoBehaviour
 {
+    public event GameController.removeEnemy EneiesMinusOne;
     public int robohealth = 4;
     public float speed = 0.2f;
     public float minMoveDist = 3f;
@@ -24,6 +25,7 @@ public class RoboAI : MonoBehaviour
         if (robohealth <= 0)
         {
             Destroy(gameObject);
+            EneiesMinusOne.Invoke();
         }
         if (target != null)
         {

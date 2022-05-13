@@ -21,7 +21,7 @@ public class Edge
 
 public class LvlGen : MonoBehaviour
 {
-    int enemiesLeft;
+    public int enemiesLeft;
     Cell tempCell;
     public List<Floor> floors;
     public GameObject[] gameSprites;
@@ -65,12 +65,16 @@ public class LvlGen : MonoBehaviour
                 floor.rooms.Add(room);
                 edges.AddRange(room.Edges().Where(x => Vector2.Dot(x.normal, edge.normal) - 1.0 > 0.1));
                 int floorTile = new System.Random().Next(0, 2);
+                int enemycount = new System.Random().Next(0, 100);
+                enemycount = Mathf.Abs(enemycount / new System.Random().Next(0, enemycount));
+                int Spawnercount = Mathf.Abs(enemycount / new System.Random().Next(1, enemycount));
                 for (int k = 0; k < room.grid.Width; k++)
                 {
+                    int chance = new System.Random().Next(0, 30);
                     for (int l = 0; l < room.grid.Height; l++)
                     {
-                        int rand2 = new System.Random().Next(0, 100);
-                       
+
+
                         bool left = k == 0;
                         bool right = k == room.grid.Width - 1;
                         bool top = l == 0;
@@ -81,10 +85,13 @@ public class LvlGen : MonoBehaviour
                         Debug.Log($"Using tileP {floorTile}. Avail: {gameSprites.Length}");
                         var cell = Instantiate(gameSprites[floorTile], tempCell.Position, Quaternion.AngleAxis(0f, new Vector3(0, 0, 0)));
                         bool isonleftedge = tempCell.Position.x == room.grid.GetCell(0, 0).Position.x;
-                        if (rand2 <= 50)
+                        if (chance < 3)
                         {
-                            Spawner(tempCell.Position, enemy);
-                            enemiesLeft++;
+                            for (int m = 0; m <= Spawnercount; m++)
+                            {
+                                Spawner s = new Spawner(tempCell.Position, enemy, enemycount);
+                                enemiesLeft++;
+                            }
                         }
                         if (left)
                         {
@@ -144,7 +151,10 @@ public class LvlGen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(enemiesLeft == 0)
+        {
+            SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
+        }
     }
 
     void OnGUI()
@@ -152,25 +162,24 @@ public class LvlGen : MonoBehaviour
         GUI.Label(new Rect(0, 0, 200, 20), "Enemies Remaining : " + enemiesLeft);
     }
 
-    public void Spawner(Vector2 location, GameObject Enemy)
-    {
-
-        Instantiate(Enemy, location, Quaternion.Euler(0, 0, 0));
-
-    }
-
-} 
-public struct Spawner
+ 
+}
+public class Spawner : MonoBehaviour
 {
     Vector2 Pos;
     GameObject npc;
-    public Spawner(Vector2 position, GameObject NPC)
+    public int Count;
+    public Spawner(Vector2 position, GameObject NPC, int SpawnCount)
     {
         this.Pos = position;
         this.npc = NPC;
+        this.Count = SpawnCount;
+        
+        for(int i = 0; i < Count; i++)
+        {
+            Instantiate(npc, (Vector3)Pos, Quaternion.Euler(0, 0, 0));
+        }
     }
-
-    //public GameObject[] NPCs = new GameObject[2];
 
 }
 public class Floor
